@@ -1,0 +1,338 @@
+/* ============================================================
+   components.css — UI 컴포넌트 스타일
+   모든 터치 타겟 >= 44x44px (CLAUDE.md 규칙)
+   hover/focus/active 상태 모두 명시
+   transition: 300ms ease-in-out 통일
+   ============================================================ */
+
+/* ===== 버튼 기본 ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--touch-target);    /* 44px */
+  min-height: var(--touch-target);   /* 44px */
+  padding: var(--space-2) var(--space-3);   /* 8px 16px */
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  background-color: var(--color-surface-high);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);   /* 8px */
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing),
+    border-color var(--duration-fast) var(--easing),
+    transform var(--duration-fast) var(--easing);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:hover {
+  background-color: #1E2742;
+  border-color: var(--color-accent);
+}
+
+.btn:focus-visible {
+  outline: var(--border-focus);
+  outline-offset: 2px;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  color: var(--color-text-faint);
+  transform: none;
+}
+
+/* ===== 재생 버튼 (강조) ===== */
+.btn--primary {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.btn--primary:hover {
+  background-color: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
+.btn--primary:focus-visible {
+  outline: var(--border-focus);
+  outline-offset: 2px;
+}
+
+.btn--primary:active {
+  transform: scale(0.95);
+}
+
+.btn--primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===== 아이콘 버튼 (정사각형) ===== */
+.btn--icon {
+  padding: 0;
+  width: var(--touch-target);        /* 44px */
+  height: var(--touch-target);       /* 44px */
+}
+
+/* ===== 배지 ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);   /* 4px 8px */
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  font-family: var(--font-mono);
+  border: 1px solid;
+  border-radius: var(--radius-sm);   /* 4px */
+  background-color: transparent;
+  line-height: 1;
+}
+
+/* 다익스트라 배지 — 인디고 */
+.badge--dijkstra {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* 벨만-포드 배지 — 앰버 */
+.badge--bellman-ford {
+  border-color: var(--color-candidate);
+  color: var(--color-candidate);
+}
+
+/* ===== 진행 바 (progress track) ===== */
+.progress-track {
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-divider);
+  border-radius: var(--radius-sm);   /* 4px */
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--color-accent);
+  border-radius: var(--radius-sm);
+  transition: width var(--duration-fast) var(--easing);
+}
+
+/* ===== 속도 슬라이더 ===== */
+.speed-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 200px;
+  height: 4px;
+  background-color: var(--color-divider);
+  border-radius: var(--radius-sm);   /* 4px */
+  outline: none;
+  cursor: pointer;
+  accent-color: var(--color-accent);
+  transition: background-color var(--duration-base) var(--easing);
+}
+
+.speed-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-accent);
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--duration-fast) var(--easing);
+}
+
+.speed-slider::-webkit-slider-thumb:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.speed-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing);
+}
+
+.speed-slider::-moz-range-thumb:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.speed-slider:focus-visible {
+  outline: var(--border-focus);
+  outline-offset: 4px;
+}
+
+/* ===== 온보딩 오버레이 ===== */
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 15, 26, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity var(--duration-base) var(--easing);
+}
+
+.onboarding-overlay[aria-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.onboarding-card {
+  background-color: var(--color-surface);
+  border: var(--border-base);
+  border-radius: var(--radius-lg);   /* 12px */
+  padding: var(--space-4);           /* 24px */
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--shadow-md);
+}
+
+.onboarding-card__title {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  margin-bottom: var(--space-3);     /* 16px */
+  line-height: var(--leading-tight);
+}
+
+.onboarding-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);               /* 8px */
+  list-style: none;
+  margin-bottom: var(--space-4);     /* 24px */
+}
+
+.onboarding-card__list li {
+  font-size: var(--text-md);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);               /* 8px */
+  line-height: var(--leading-normal);
+}
+
+.onboarding-card__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ===== 탭 버튼 (모바일용) ===== */
+.tab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: var(--touch-target);   /* 44px */
+  padding: 0 var(--space-3);         /* 0 16px */
+  font-family: var(--font-ui);
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--easing),
+    border-color var(--duration-base) var(--easing);
+  user-select: none;
+}
+
+.tab-btn:hover {
+  color: var(--color-text);
+}
+
+.tab-btn:focus-visible {
+  outline: var(--border-focus);
+  outline-offset: -2px;
+}
+
+.tab-btn:active {
+  color: var(--color-accent);
+}
+
+.tab-btn[aria-selected="true"] {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+/* ===== 설명 패널 ===== */
+.explanation-panel {
+  flex-shrink: 0;
+  height: 80px;
+  padding: var(--space-3);           /* 16px */
+  background-color: var(--color-surface-high);
+  border-top: var(--border-base);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-1);               /* 4px */
+  transition:
+    background-color var(--duration-base) var(--easing),
+    border-top-color var(--duration-base) var(--easing);
+}
+
+.explanation-step-label {
+  font-size: var(--text-md);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  line-height: var(--leading-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.explanation-detail {
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  line-height: var(--leading-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.explanation-panel--neg-cycle {
+  background-color: rgba(239, 68, 68, 0.08);
+  border-top-color: var(--color-neg-cycle);
+}
+
+.explanation-panel--neg-cycle .explanation-step-label {
+  color: var(--color-neg-cycle);
+}
+
+/* ===== 노드 툴팁 ===== */
+.node-tooltip {
+  position: absolute;
+  background-color: var(--color-bg);
+  border: var(--border-base);
+  border-radius: var(--radius-sm);   /* 4px */
+  padding: var(--space-1) var(--space-2);   /* 4px 8px */
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 50;
+  box-shadow: var(--shadow-sm);
+  transition: opacity var(--duration-fast) var(--easing);
+}

@@ -1,0 +1,215 @@
+/* ============================================================
+   graph.css — SVG 그래프 요소 상태별 스타일
+   7가지 알고리즘 상태 색상 매핑
+   4가지 엣지 상태
+   @keyframes: pulse, dash-flow
+   ============================================================ */
+
+/* ===== SVG 기본 설정 ===== */
+.graph-svg {
+  overflow: visible;
+}
+
+/* ===== 노드 (circle) 기본 상태 ===== */
+.graph-node {
+  fill: var(--color-surface);
+  stroke: var(--color-unvisited);    /* #4A4A5A */
+  stroke-width: 2;
+  cursor: pointer;
+  transition:
+    fill var(--duration-base) var(--easing),
+    stroke var(--duration-base) var(--easing),
+    stroke-width var(--duration-fast) var(--easing);
+}
+
+.graph-node:hover {
+  stroke-width: 3;
+  filter: brightness(1.2);
+}
+
+.graph-node:focus {
+  outline: none;
+  stroke: var(--color-accent);
+  stroke-width: 3;
+}
+
+/* ===== 노드 상태 클래스 (7가지) ===== */
+
+/* 1. 미방문 (기본) */
+.graph-node.unvisited {
+  stroke: var(--color-unvisited);    /* #4A4A5A */
+  fill: var(--color-surface);
+}
+
+/* 2. 후보/큐 */
+.graph-node.candidate {
+  stroke: var(--color-candidate);    /* #F59E0B */
+  fill: rgba(245, 158, 11, 0.12);
+}
+
+/* 3. 처리 중 (점선 + 애니메이션) */
+.graph-node.processing {
+  stroke: var(--color-processing);   /* #F97316 */
+  stroke-width: 2.5;
+  stroke-dasharray: 5 3;
+  fill: rgba(249, 115, 22, 0.12);
+  animation: dash-rotate var(--duration-slow) linear infinite;
+}
+
+/* 4. 확정 */
+.graph-node.settled {
+  stroke: var(--color-settled);      /* #10B981 */
+  fill: rgba(16, 185, 129, 0.12);
+}
+
+/* 5. 음수 사이클 (벨만-포드 전용) */
+.graph-node.neg-cycle {
+  stroke: var(--color-neg-cycle);    /* #EF4444 */
+  stroke-width: 2.5;
+  fill: rgba(239, 68, 68, 0.12);
+  animation: pulse-neg var(--duration-base) var(--easing) infinite alternate;
+}
+
+/* 6. 시작 노드 */
+.graph-node.source {
+  stroke: var(--color-source);       /* #818CF8 */
+  stroke-width: 3;
+  fill: rgba(129, 140, 248, 0.15);
+}
+
+/* 7. 최단 경로 (최종 결과 표시) */
+.graph-node.path {
+  stroke: var(--color-path);         /* #34D399 */
+  stroke-width: 2.5;
+  fill: rgba(52, 211, 153, 0.12);
+}
+
+/* ===== 노드 텍스트 레이블 ===== */
+.graph-node-label {
+  font-size: var(--text-sm);         /* 12px */
+  font-family: var(--font-mono);
+  font-weight: var(--weight-semibold);
+  fill: var(--color-text);
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ===== 엣지 (line/path) 기본 상태 ===== */
+.graph-edge {
+  fill: none;
+  stroke: var(--color-divider);      /* #2A2A3E */
+  stroke-width: 1.5;
+  transition:
+    stroke var(--duration-base) var(--easing),
+    stroke-width var(--duration-base) var(--easing),
+    opacity var(--duration-base) var(--easing);
+}
+
+/* ===== 엣지 상태 클래스 (4가지) ===== */
+
+/* 기본 */
+.graph-edge.default {
+  stroke: var(--color-divider);      /* #2A2A3E */
+  stroke-width: 1.5;
+}
+
+/* 완화 중 (점선 + 애니메이션) */
+.graph-edge.relaxing {
+  stroke: var(--color-processing);   /* #F97316 */
+  stroke-width: 3;
+  stroke-dasharray: 6 3;
+  animation: dash-flow var(--duration-slow) linear infinite;
+}
+
+/* 확정 최단 경로 */
+.graph-edge.shortest-path {
+  stroke: var(--color-settled);      /* #10B981 */
+  stroke-width: 2.5;
+}
+
+/* 음수 간선 */
+.graph-edge.negative {
+  stroke: var(--color-neg-cycle);    /* #EF4444 */
+  stroke-width: 2.5;
+  stroke-dasharray: 4 2;
+  animation: dash-flow var(--duration-slow) linear infinite;
+}
+
+/* ===== 엣지 가중치 레이블 ===== */
+.graph-edge-label {
+  font-size: var(--text-sm);         /* 12px */
+  font-family: var(--font-mono);
+  font-weight: var(--weight-normal);
+  fill: var(--color-text-muted);
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+  user-select: none;
+
+  /* 레이블 배경 효과 (SVG paint-order 활용) */
+  paint-order: stroke;
+  stroke: var(--color-surface);
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+/* 음수 가중치 레이블 강조 */
+.graph-edge-label--negative {
+  fill: var(--color-neg-cycle);
+}
+
+/* ===== 화살표 마커 ===== */
+/* index.html의 <defs> 안에 정의 */
+/* marker fill은 currentColor 또는 고정 토큰 색상 사용 */
+
+/* ===== 트랜지션 통일 (CLAUDE.md §6 준수) ===== */
+/* 모든 그래프 요소: transition 300ms ease-in-out */
+.graph-node,
+.graph-edge,
+.graph-node-label,
+.graph-edge-label {
+  transition-timing-function: var(--easing);
+  transition-duration: var(--duration-base);  /* 300ms */
+}
+
+/* ===== 애니메이션 키프레임 ===== */
+
+/* dash-rotate: 점선 대시 회전 (처리 중 노드) */
+@keyframes dash-rotate {
+  to {
+    stroke-dashoffset: -8;
+  }
+}
+
+/* dash-flow: 점선 흐름 (완화 중 엣지, 음수 사이클 엣지) */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -9;
+  }
+}
+
+/* pulse: 음수 사이클 노드 펄스 */
+@keyframes pulse {
+  from {
+    fill-opacity: 0.08;
+    stroke-width: 2;
+  }
+  to {
+    fill-opacity: 0.2;
+    stroke-width: 3;
+  }
+}
+
+/* pulse-neg: 음수 사이클 전용 펄스 (alias) */
+@keyframes pulse-neg {
+  from {
+    fill-opacity: 0.08;
+    stroke-width: 2;
+  }
+  to {
+    fill-opacity: 0.2;
+    stroke-width: 3;
+  }
+}

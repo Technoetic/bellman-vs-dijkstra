@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>벨만-포드 vs 다익스트라 | 인터랙티브 알고리즘 비교</title>
+  <script type="module" crossorigin src="/assets/index-BQS_5K5I.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DWQHU8fD.css">
+</head>
+<body>
+  <div class="page-layout">
+    <!-- 헤더 -->
+    <header class="app-header">
+      <div class="app-logo">
+        <h1>벨만-포드 vs 다익스트라</h1>
+        <p class="subtitle">두 최단경로 알고리즘을 동시에 비교해 보세요</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn--icon" id="btn-info" title="정보">ℹ</button>
+        <button class="btn btn--icon" id="btn-dark-mode" title="다크 모드">◑</button>
+      </div>
+    </header>
+
+    <!-- 모바일 탭 바 -->
+    <div class="tab-bar">
+      <button class="tab-bar__btn" data-panel="bellmanford" aria-selected="true">벨만-포드</button>
+      <button class="tab-bar__btn" data-panel="dijkstra" aria-selected="false">다익스트라</button>
+    </div>
+
+    <!-- 좌: 벨만-포드 패널 -->
+    <section class="algorithm-panel algorithm-panel--left" id="bellmanford-panel" data-active="true">
+      <div class="panel-header">
+        <h2>벨만-포드</h2>
+        <span class="badge badge--bellmanford">반복 완화</span>
+        <span class="badge-complexity">O(V × E)</span>
+      </div>
+      <div class="graph-canvas" id="bellmanford-graph"></div>
+      <div class="explanation-panel" id="explain-bellmanford">
+        <strong>벨만-포드:</strong>
+        <span>하단 ▶ 버튼으로 시작하세요</span>
+      </div>
+    </section>
+
+    <!-- 우: 다익스트라 패널 -->
+    <section class="algorithm-panel algorithm-panel--right" id="dijkstra-panel" data-active="true">
+      <div class="panel-header">
+        <h2>다익스트라</h2>
+        <span class="badge badge--dijkstra">최솟값 우선</span>
+        <span class="badge-complexity">O(E + V log V)</span>
+      </div>
+      <div class="graph-canvas" id="dijkstra-graph"></div>
+      <div class="explanation-panel" id="explain-dijkstra">
+        <strong>다익스트라:</strong>
+        <span>하단 ▶ 버튼으로 시작하세요</span>
+      </div>
+    </section>
+
+    <!-- 제어 패널 -->
+    <div class="control-panel" id="controls">
+      <div class="controls-inner">
+        <div class="controls-group">
+          <button class="btn btn--icon" id="btn-start" title="처음으로">⏮</button>
+          <button class="btn btn--icon" id="btn-prev" title="이전">◀</button>
+          <button class="btn btn--primary btn--icon" id="btn-play" title="재생">▶</button>
+          <button class="btn btn--icon" id="btn-next" title="다음">▶︎</button>
+          <button class="btn btn--icon" id="btn-end" title="끝으로">⏭</button>
+          <button class="btn btn--icon" id="btn-reset" title="리셋">↺</button>
+        </div>
+
+        <div class="step-counter" id="step-counter">
+          <span id="current-step">0</span> / <span id="total-steps">0</span>
+        </div>
+
+        <div class="controls-group">
+          <label for="speed-slider" class="control-label">속도</label>
+          <input type="range" id="speed-slider" class="slider" min="0.25" max="4" step="0.25" value="1">
+          <span id="speed-label" class="control-value">1x</span>
+        </div>
+
+        <div class="controls-group">
+          <label for="preset-select" class="control-label">그래프</label>
+          <select id="preset-select" class="preset-select">
+            <option value="default">기본 (양수 가중치)</option>
+            <option value="negative-weights">음수 가중치</option>
+            <option value="negative-cycle">음수 사이클</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
